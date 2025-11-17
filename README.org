@@ -1,4 +1,4 @@
-* Trashcan 🗑️☢️
+* Chessboard ♗
 
 #+html: <a href="https://builtwithnix.org"><img alt="built with nix" src="https://builtwithnix.org/badge.svg" /></a><br>
 #+html: <a href="https://github.com/Dr-Nekoma/trashcan/actions/workflows/qemu_build.yml"><img alt="[QEMU] Build" src="https://github.com/Dr-Nekoma/trashcan/actions/workflows/qemu_build.yml/badge.svg" /></a>

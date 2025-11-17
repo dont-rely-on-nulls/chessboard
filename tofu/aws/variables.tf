@@ -5,10 +5,12 @@ variable "availability_zone" {
   nullable    = false
 }
 
+# Use 't3.small' for local testing, due to the free-tier on
+# certain regions.
 variable "instance_type" {
   description = "The instance used by the AMI and EC2"
   type        = string
-  default     = "t3.small"
+  default     = "t3a.medium"
   nullable    = false
 }
 
