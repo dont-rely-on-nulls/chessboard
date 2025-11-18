@@ -3,17 +3,6 @@
 #+html: <a href="https://builtwithnix.org"><img alt="built with nix" src="https://builtwithnix.org/badge.svg" /></a><br>
 #+html: <a href="https://github.com/Dr-Nekoma/trashcan/actions/workflows/qemu_build.yml"><img alt="[QEMU] Build" src="https://github.com/Dr-Nekoma/trashcan/actions/workflows/qemu_build.yml/badge.svg" /></a>
 
-#+ATTR_HTML: :style margin-left: auto; margin-right: auto;
-⬛⬜⬛⬜⬛⬜⬛⬜<br>
-⬜⬛⬜⬛⬜⬛⬜⬛<br>
-⬛⬜⬛⬜⬛⬜⬛⬜<br>
-⬜⬛⬜⬛⬜⬛⬜⬛<br>
-⬛⬜⬛⬜⬛⬜⬛⬜<br>
-⬜⬛⬜⬛⬜⬛⬜⬛<br>
-⬛⬜⬛⬜⬛⬜⬛⬜<br>
-⬜⬛⬜⬛⬜⬛⬜⬛
-
-
 This repository contains the server configuration to host applications from
 [[https://github.com/Dr-Nekoma][Dr. Nekoma]] and [[https://github.com/dont-rely-on-nulls][Don't Rely on Nulls]]. Currently, the following projects are hosted
 here:
