@@ -12,41 +12,24 @@ variable "mgc_region" {
   default     = "br-se1"
 }
 
+variable "project" {
+  type        = string
+  default     = "nekoma"
+  nullable    = false
+}
+
 # ===============
 # VM Variables
 # ===============
+# Alternatives: BV1-2-100, BV2-4-100, BV4-8-100, etc.
 variable "instance_type" {
   description = "Instance type for the VM"
   type        = string
-  # Options: BV1-2-10, BV1-2-150, BV2-4-40, etc.
-  default = "BV2-4-40"
+  default     = "BV2-4-100"
 }
 
 variable "initial_image" {
   type    = string
   default = "cloud-ubuntu-24.04 LTS"
-}
-
-variable "disk_size" {
-  description = "Root disk size in GB"
-  type        = number
-  default     = 200
-}
-
-# ===============
-# NixOS Variables
-# ===============
-variable "flake_path" {
-  description = "Path to your NixOS flake"
-  type        = string
-  default     = "../.."
-  nullable    = false
-}
-
-variable "flake_system" {
-  description = "NixOS system name in your flake"
-  type        = string
-  default     = "bootstrap_mgc"
-  nullable    = false
 }
 

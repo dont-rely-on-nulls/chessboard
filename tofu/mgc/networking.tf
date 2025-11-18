@@ -1,11 +1,11 @@
 resource "mgc_network_vpcs" "vpc" {
-  name        = "vpc-nekoma"
+  name        = "vpc-${var.project}"
   description = "Nekoma VPC"
 }
 
 # Public Subnet
 resource "mgc_network_subnetpools" "snet_pool" {
-  name        = "snet-pool-pub-nekoma"
+  name        = "snet-pool-pub-${var.project}"
   description = "Nekoma Subnet Pool"
   cidr        = "10.0.0.0/16"
 }
@@ -15,14 +15,14 @@ resource "mgc_network_vpcs_subnets" "snet_pub" {
   description     = "Public VPC Subnet"
   ip_version      = "IPv4"
   dns_nameservers = ["8.8.8.8", "8.8.4.4"]
-  name            = "snet-pub-nekoma"
+  name            = "snet-pub-${var.project}"
   subnetpool_id   = mgc_network_subnetpools.snet_pool.id
   vpc_id          = mgc_network_vpcs.vpc.id
 }
 
 # Create Security Group
 resource "mgc_network_security_groups" "sg_vm" {
-  name        = "sg-nekoma"
+  name        = "sg-${var.project}"
   description = "Security group for the Nekoma server"
 }
 

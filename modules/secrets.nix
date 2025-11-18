@@ -60,14 +60,6 @@ in
             group = "users";
             mode = "440";
           };
-
-          # lyceum_erlang_cookie = {
-          #   file = ../secrets/lyceum_erlang_cookie.age;
-          #   owner = lyceum_module.user;
-          #   group = "users";
-          #   mode = "440";
-          #   path = "${lyceum_work_dir}/.erlang.cookie";
-          # };
         };
       };
 
