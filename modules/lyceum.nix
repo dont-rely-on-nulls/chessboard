@@ -168,9 +168,9 @@ in
           # Resource limits
           # https://www.man7.org/linux/man-pages/man5/systemd.resource-control.5.html
           # Memory usage upper & lower bounds
-          MemoryMax = "70%";
-          MemoryHigh = "60%";
-          MemoryLow = "25%";
+          MemoryMax = "40%";
+          MemoryHigh = "25%";
+          MemoryLow = "10%";
           MemorySwapMax = "20%";
 
           LimitNOFILE = "65536";
