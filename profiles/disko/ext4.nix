@@ -1,29 +1,6 @@
 { target }:
 let
-  # Device names differ by environment
-  deviceOptions = {
-    aws = "nvme0n1";
-    mgc = "vda";
-    vm = "vda";
-  };
-  device = deviceOptions.${target};
-
-  # Only the VM needs an image size
-  extraAttrs = if target == "vm" then { imageSize = "40G"; } else { };
-
-  # Partition size parameters per target
-  partitionOptions = {
-    aws = {
-      swap = "16G";
-    };
-    mgc = {
-      swap = "16G";
-    };
-    vm = {
-      swap = "4G";
-    };
-  };
-  sizes = partitionOptions.${target};
+  extraAttrs = if target.name == "vm" then { imageSize = "40G"; } else { };
 
   defaultMountOptions = [
     "defaults"
@@ -33,7 +10,7 @@ in
 {
   devices = {
     disk.main = extraAttrs // {
-      device = "/dev/${device}";
+      device = "/dev/${target.device}";
       type = "disk";
       content = {
         type = "gpt";
@@ -53,7 +30,7 @@ in
           };
           swap = {
             name = "swap";
-            size = sizes.swap;
+            size = target.swap.size;
             content.type = "swap";
           };
           root = {
