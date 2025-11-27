@@ -87,32 +87,42 @@ in
           }
         ];
         settings = {
+          # Monitoring & Statistics
           shared_preload_libraries = "pg_stat_statements";
-          wal_level = "logical";
-          # pg_stat_statements config, nested attr sets need to be
-          # converted to strings, otherwise postgresql.conf fails
-          # to be generated.
           compute_query_id = "on";
           "pg_stat_statements.max" = 10000;
           "pg_stat_statements.track" = "all";
-          # All these settings bellow come from here
+          # Most of these settings bellow come from here
           # https://pgtune.leopard.in.ua/
-          shared_buffers = "1GB";
-          effective_cache_size = "3GB";
-          maintenance_work_mem = "256MB";
-          min_wal_size = "2GB";
-          max_wal_size = "8GB";
-          wal_buffers = "16MB";
+          # Memory Settings
+          shared_buffers = "4GB";
+          effective_cache_size = "12GB";
+          maintenance_work_mem = "1GB";
+          autovacuum_work_mem = "512MB";
+          work_mem = "16MB";
+          # WAL Settings
+          wal_level = "logical";
+          min_wal_size = "1GB";
+          max_wal_size = "4GB";
+          wal_buffers = "32MB";
+          wal_compression = "lz4";
+          # Query Planner Settings
           random_page_cost = "1.1";
           # Async/IO Setup
           io_method = "io_uring";
-          # Increase work memory for large operations
-          work_mem = "16MB";
+          io_combine_limit = "128kB";
           # Enable huge pages if available
           huge_pages = "try";
           # Adjust I/O concurrency settings
-          effective_io_concurrency = 32;
+          effective_io_concurrency = 64;
           maintenance_io_concurrency = 32;
+          max_worker_processes = 4;
+          max_parallel_workers_per_gather = 2;
+          max_parallel_workers = 4;
+          max_parallel_maintenance_workers = 2;
+          # Vacuum Settings
+          autovacuum = "on";
+          autovacuum_max_workers = 3;
         };
         extensions = with pg.pkgs; [
           omnigres

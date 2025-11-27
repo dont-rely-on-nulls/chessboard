@@ -8,8 +8,9 @@
 
 let
   cfg = config.modules.disko;
+  settings = import ../profiles/settings.nix;
   disko_profile_path = ../profiles/disko/. + "/${cfg.profile}.nix";
-  disko_settings = import disko_profile_path { target = cfg.target; };
+  disko_settings = import disko_profile_path { target = settings."${cfg.target}"; };
   inherit (lib)
     mkEnableOption
     mkIf
