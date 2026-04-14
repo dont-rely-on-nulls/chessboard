@@ -13,9 +13,9 @@ variable "mgc_region" {
 }
 
 variable "project" {
-  type        = string
-  default     = "nekoma"
-  nullable    = false
+  type     = string
+  default  = "nekoma"
+  nullable = false
 }
 
 # ===============
