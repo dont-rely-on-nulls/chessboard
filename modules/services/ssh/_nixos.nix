@@ -3,7 +3,7 @@
 let
   cfg = config.modules.ssh;
   impermanence_module = config.modules.impermanence;
-  keys = import ../keys;
+  keys = import ../../users/_keys.nix;
   everyone = keys.allUsers keys.systems keys.users;
   inherit (lib)
     mkEnableOption

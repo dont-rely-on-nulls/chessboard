@@ -5,7 +5,7 @@
   ...
 }:
 let
-  keys = import ../keys;
+  keys = import ./_keys.nix;
   allKeys = keys.allKeys keys.systems keys.users;
   everyone =
     (

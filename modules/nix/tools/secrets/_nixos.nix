@@ -55,7 +55,7 @@ in
       age = {
         secrets = {
           lyceum_application_env = {
-            file = ../secrets/lyceum_application_env.age;
+            file = ../../../../secrets/lyceum_application_env.age;
             owner = lyceum_module.user;
             group = "users";
             mode = "440";
@@ -76,42 +76,42 @@ in
       age = {
         secrets = {
           pg_bouncer_auth_file = {
-            file = ../secrets/pg_bouncer_auth_file.age;
+            file = ../../../../secrets/pg_bouncer_auth_file.age;
             owner = config.systemd.services.pgbouncer.serviceConfig.User;
             group = config.systemd.services.pgbouncer.serviceConfig.Group;
             mode = "440";
           };
 
           pg_user_lyceum = {
-            file = ../secrets/pg_user_lyceum.age;
+            file = ../../../../secrets/pg_user_lyceum.age;
             owner = config.systemd.services.postgresql.serviceConfig.User;
             group = config.systemd.services.postgresql.serviceConfig.Group;
             mode = "440";
           };
 
           pg_user_lyceum_application = {
-            file = ../secrets/pg_user_lyceum_application.age;
+            file = ../../../../secrets/pg_user_lyceum_application.age;
             owner = config.systemd.services.postgresql.serviceConfig.User;
             group = config.systemd.services.postgresql.serviceConfig.Group;
             mode = "440";
           };
 
           pg_user_lyceum_auth = {
-            file = ../secrets/pg_user_lyceum_auth.age;
+            file = ../../../../secrets/pg_user_lyceum_auth.age;
             owner = config.systemd.services.postgresql.serviceConfig.User;
             group = config.systemd.services.postgresql.serviceConfig.Group;
             mode = "440";
           };
 
           pg_user_lyceum_mnesia = {
-            file = ../secrets/pg_user_lyceum_mnesia.age;
+            file = ../../../../secrets/pg_user_lyceum_mnesia.age;
             owner = config.systemd.services.postgresql.serviceConfig.User;
             group = config.systemd.services.postgresql.serviceConfig.Group;
             mode = "440";
           };
 
           pg_user_migrations = {
-            file = ../secrets/pg_user_migrations.age;
+            file = ../../../../secrets/pg_user_migrations.age;
             owner = config.systemd.services.postgresql.serviceConfig.User;
             group = config.systemd.services.postgresql.serviceConfig.Group;
             mode = "440";
@@ -154,9 +154,9 @@ in
           RuntimeDirectoryMode = "700";
         };
         script = ''
-          # set bash options for early fail and error output         
+          # set bash options for early fail and error output
           set -o errexit -o pipefail -o nounset -o errtrace
-          shopt -s inherit_errexit                                                                                                                                 
+          shopt -s inherit_errexit
 
           # Wait for PostgreSQL to be fully ready
           until ${postgresql_module.package}/bin/pg_isready -q; do
@@ -168,9 +168,9 @@ in
             sleep 1
           done
 
-          # Copy SQL template into temporary folder. The value of RuntimeDirectory is written into                 
+          # Copy SQL template into temporary folder. The value of RuntimeDirectory is written into
           # environment variable RUNTIME_DIRECTORY by systemd.
-          install --mode 600 ${../templates/pg-lyceum-init.tmpl.sql} ''$RUNTIME_DIRECTORY/init.sql
+          install --mode 600 ${../../../../templates/pg-lyceum-init.tmpl.sql} ''$RUNTIME_DIRECTORY/init.sql
 
           # fill SQL template with passwords
           ${pkgs.replace-secret}/bin/replace-secret @PG_LYCEUM_USER@ ${config.age.secrets.pg_user_lyceum.path} ''$RUNTIME_DIRECTORY/init.sql

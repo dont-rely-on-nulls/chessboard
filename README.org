@@ -36,9 +36,10 @@ If you don’t have SSH keys configured yet:
 
 Then, return to this project's root directory and:
 
-1. Modify [[./keys/default.nix]] to add your user and public key following the existing format.
-2. If you want to add a new secret, edit [[./secrets/secrets.nix]] and include it there.  
-   Use ~everyone~ as the list of public keys.
+1. Modify [[./modules/users/_keys.nix]] to add your user and public key following
+   the existing format.
+2. If you want to add a new secret, edit [[./secrets/secrets.nix]] and include it
+   there. Use ~everyone~ as the list of public keys.
 
    #+begin_src shell
      # If your SSH agent already has a key loaded
@@ -60,44 +61,61 @@ Then, return to this project's root directory and:
 
 *** QEMU VM
 
-To build and run a local virtual machine for testing:
+To build and run the bootstrap VM locally for testing:
 
 #+begin_src shell
-  just build-qemu   # or: just bq, or simply: bq
+  # Build the bootstrap VM image (stage 1 — minimal config)
+  just build-qemu                       # or: just bq
+
+  # Build and run in one step
+  just run-qemu                         # or: just rq
 #+end_src
 
-Then:
+By default this targets the ~bootstrap~ stage. To launch the full ~nekoma~ stage
+(which includes PostgreSQL, Lyceum, secrets):
 
 #+begin_src shell
-  just run-qemu     # or: just rq, or simply: rq
+  TARGET_VM=nekoma just run-qemu
 #+end_src
+
+The VM exposes the following ports on the host via QEMU port forwarding:
+
+| Host Port | Guest Port | Service                  |
+|-----------+------------+--------------------------|
+|      2222 |         22 | SSH                      |
+|      4369 |       4369 | EPMD (Erlang)            |
+|      9100 |       9100 | Erlang Distribution Port |
 
 Inside the VM, verify services are running correctly:
 
 #+begin_src shell
   systemctl status sshd.service
-  # or, if the configuration includes PostgreSQL
+  # or, if running the nekoma stage
   sudo --user postgres psql
 #+end_src
 
-You can also add a convenient SSH config entry (on ~$HOME/.ssh/config~):
+You can also add a convenient SSH config entry (in ~$HOME/.ssh/config~):
 
 #+begin_src shell
   Host nekoma_vm
     HostName 127.0.0.1
     Port 2222
-    User root 
+    User root
     IdentityFile /dev/null
     StrictHostKeyChecking no
     UserKnownHostsFile /dev/null
     CheckHostIP no
+    SetEnv TERM=xterm-256color
+    SendEnv COLORTERM TERM_PROGRAM TERM_PROGRAM_VERSION
 
-  # Also useful when targeting the cloud providers
-  Host nekoma_vm
+  # For cloud-hosted instances
+  Host nekoma_cloud
     HostName <whatever-you-get-from-tofu>
     Port 22
     User your_user
     IdentityFile your_key
+    SetEnv TERM=xterm-256color
+    SendEnv COLORTERM TERM_PROGRAM TERM_PROGRAM_VERSION
 #+end_src
 
 Then connect with:
@@ -106,7 +124,7 @@ Then connect with:
   ssh nekoma_vm
 #+end_src
 
-Once the VM is up, you can run:
+Once the bootstrap VM is up, you can deploy the full nekoma configuration:
 
 #+begin_src shell
   just deploy-qemu
